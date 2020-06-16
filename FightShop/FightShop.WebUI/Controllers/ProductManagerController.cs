@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using FightShop.Core.Models;
+using FightShop.Core.ViewModels;
 using FightShop.DataAccess.InMemory;
 
 namespace FightShop.WebUI.Controllers
@@ -11,10 +12,12 @@ namespace FightShop.WebUI.Controllers
     public class ProductManagerController : Controller
     {
         ProductRepository context;
+        ProductCategoryRepository productCategories;
 
         public ProductManagerController()
         {
             context = new ProductRepository();
+            productCategories = new ProductCategoryRepository();
         }
         // GET: ProductManager
         public ActionResult Index()
@@ -25,8 +28,11 @@ namespace FightShop.WebUI.Controllers
 
         public ActionResult Create()
         {
-            Product product = new Product();
-            return View(product);
+            ProductManagerViewModel viewModel = new ProductManagerViewModel();
+            viewModel.Product = new Product();
+            viewModel.ProductCategories = productCategories.Collection();
+
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -53,7 +59,10 @@ namespace FightShop.WebUI.Controllers
                 return HttpNotFound();
             } else
             {
-                return View(product);
+                ProductManagerViewModel viewModel = new ProductManagerViewModel();
+                viewModel.Product = product;
+                viewModel.ProductCategories = productCategories.Collection();
+                return View(viewModel);
             }
         }
 
