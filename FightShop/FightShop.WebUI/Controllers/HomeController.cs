@@ -1,5 +1,6 @@
 ﻿using FightShop.Core.Contracts;
 using FightShop.Core.Models;
+using FightShop.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,10 +21,24 @@ namespace FightShop.WebUI.Controllers
             productCategories = productCategoryContext;
         }
        
-        public ActionResult Index()
+        public ActionResult Index(string Category=null)
         {
-            List<Product> products = context.Collection().ToList();
-            return View(products);
+            List<Product> products;
+            List<ProductCategory> categories = productCategories.Collection().ToList();
+            if (Category == null)
+            {
+                products = context.Collection().ToList();
+            }
+            else
+            {
+                products = context.Collection().Where(p => p.Category == Category).ToList();
+            }
+
+            ProductListViewModel model = new ProductListViewModel();
+            model.Products = products;
+            model.ProductCategories = categories;
+
+            return View(model);
         }
 
         public ActionResult Details(string Id)
