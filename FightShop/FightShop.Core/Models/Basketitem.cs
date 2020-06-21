@@ -8,7 +8,7 @@ namespace FightShop.Core.Models
 {
     public class BasketItem : BaseEntity
     {
-        public string BasketD { get; set; }
+        public string BasketId { get; set; }
         public string ProductId { get; set; }
         public int Quantity { get; set; }
     }
