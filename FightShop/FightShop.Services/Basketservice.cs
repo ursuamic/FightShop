@@ -132,7 +132,7 @@ namespace FightShop.Services
                                     select item.Quantity).Sum();
                 decimal? basketTotal = (from item in basket.BasketItems
                                         join p in productContext.Collection() on item.ProductId equals p.Id
-                                        select item.Quantity * Decimal.Parse(p.Price)).Sum(); //convert to decimal
+                                        select item.Quantity * decimal.Parse(p.Price)).Sum(); //convert to decimal
                 model.BasketCount = basketCount ?? 0;
                 model.BasketTotal = basketTotal ?? decimal.Zero;
 
